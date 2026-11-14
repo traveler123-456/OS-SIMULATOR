@@ -10,6 +10,7 @@ FileSystem::FileSystem() {
 }
 
 bool FileSystem::mkdir(string argument) {
+    if (argument == "." || argument == "..") { return false; }
     if (haschild(argument, current)) { return false; }
 
     Directory* create = new Directory;

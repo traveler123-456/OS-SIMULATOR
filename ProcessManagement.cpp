@@ -3,6 +3,13 @@
 #include "scheduler.h"
 static int PID = 0;
 
+static bool ToInt(const string& s, int& out) {
+    try {
+        size_t pos;
+        out = stoi(s, &pos);
+        return pos == s.size();
+    } catch (...) { return false; }
+}
 process* FRONT = nullptr;
 process* REAR = nullptr;
 
@@ -137,8 +144,8 @@ void ShowInfo(int PID) {
 void ChangeState(int PID, string NewState) {
     if (NewState != "new" && NewState != "ready" && NewState != "running" &&
         NewState != "terminated") {
-        cout << "Invalid argument\t" << "Avilable States <new> <ready> <running> <terminated>"
-             << endl;
+        cout << "Invalid argument\t"
+             << "Avilable States <new> <ready> <running> <terminated>" << endl;
         return;
     }
 
@@ -151,13 +158,17 @@ void ChangeState(int PID, string NewState) {
 
     while (temp) {
         if (temp->PID == PID) {
-            if (temp->state == "new" && NewState != "ready" ||
-                temp->state == "ready" && NewState != "running" ||
-                temp->state == "running" && NewState != "terminated") {
+            string cur = temp->state;
+            bool ok = (cur == "new" && NewState == "ready") ||
+                      (cur == "ready" && NewState == "running") ||
+                      (cur == "running" && (NewState == "ready" || NewState == "terminated"));
+
+            if (!ok) {
                 cout << "Invalid state transition! ";
-                cout << "new -> ready -> running -> terminated\n";
+                cout << "new -> ready -> running -> (ready or terminated)\n";
                 return;
             }
+
             temp->state = NewState;
             return;
         }
@@ -166,8 +177,6 @@ void ChangeState(int PID, string NewState) {
     }
 
     cout << "NO PROCESS FOUND OF PID:" << PID << endl;
-
-    return;
 }
 
 bool ProcessManagement(string cmd, vector<string>& argument) {
@@ -209,7 +218,11 @@ bool ProcessManagement(string cmd, vector<string>& argument) {
             return true;
         }
 
-        int PID = stoi(argument[0]);
+        int PID;
+        if (!ToInt(argument[0], PID)) {
+            cout << "kill: PID must be a number\n";
+            return true;
+        }
 
         kill(PID);
 
@@ -222,7 +235,11 @@ bool ProcessManagement(string cmd, vector<string>& argument) {
             return true;
         }
 
-        int PID = stoi(argument[0]);
+        int PID;
+        if (!ToInt(argument[0], PID)) {
+            cout << "info: PID must be a number\n";
+            return true;
+        }
 
         ShowInfo(PID);
 
@@ -235,7 +252,11 @@ bool ProcessManagement(string cmd, vector<string>& argument) {
             return true;
         }
 
-        int PID = stoi(argument[0]);
+        int PID;
+        if (!ToInt(argument[0], PID)) {
+            cout << "state: PID must be a number\n";
+            return true;
+        }
         string NewState = argument[1];
 
         ChangeState(PID, NewState);
