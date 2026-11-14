@@ -1,5 +1,6 @@
 #include "ProcessManagement.h"
 
+#include "MemoryManagement.h"
 #include "scheduler.h"
 static int PID = 0;
 
@@ -101,6 +102,10 @@ void kill(int PID) {
             else
                 temp->right->left = temp->left;
 
+            if (HasMemory(temp->PID)) {
+                FreeMemory(temp->PID);
+                cout << "=>PID: " << temp->PID << " memory released" << endl;
+            }
             cout << "=>PID: " << temp->PID << " Deletion Successful" << endl;
 
             delete temp;
@@ -168,7 +173,18 @@ void ChangeState(int PID, string NewState) {
                 cout << "new -> ready -> running -> (ready or terminated)\n";
                 return;
             }
+            if (cur == "new" && NewState == "ready" && !HasMemory(PID)) {
+                if (!AllocateMemory(PID, temp->MemoryNeeded)) {
+                    cout << "PID " << PID << " stays in 'new' (no memory)\n";
+                    return;
+                }
+                cout << "=> " << temp->MemoryNeeded << " allocated to PID " << PID << endl;
+            }
 
+            if (NewState == "terminated" && HasMemory(PID)) {
+                FreeMemory(PID);
+                cout << "=> memory of PID " << PID << " released" << endl;
+            }
             temp->state = NewState;
             return;
         }

@@ -128,13 +128,11 @@ mem
 ## Limitations
 
 - The circular order in Round Robin is fixed by arrival order, so results can differ from textbook answers when arrival times are staggered (they match when all arrivals are 0).
-- Memory allocation is a separate command and is not yet linked to process states or `kill`.
 - File and folder names cannot contain spaces.
 - The file system is in memory only; nothing is saved when the simulator exits.
 
 ## Planned Feature's
 
-- [ ] Link memory to processes (allocate on `new → ready`, free on `kill` and `terminated`)
 - [ ] Paging with page replacement (FIFO, LRU, Optimal)
 - [ ] Process synchronization (semaphores, producer-consumer, dining philosophers)
 - [ ] More schedulers: FCFS, SJF, SRTF, Priority
