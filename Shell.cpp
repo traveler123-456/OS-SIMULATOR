@@ -11,10 +11,9 @@ void Shell() {
     FileSystem fs;
     CommandParser commandparser(&fs);
     string input;
-    getline(cin, input);
-    while (true) {
+    while (getline(cin, input)) {
         if (!commandparser.execute(input)) break;
         cout << "[" << name << "@OS_SIMULATOR " << fs.current->name << "]$ ";
-        getline(cin, input);
     }
+    cout << "\n";
 }

@@ -24,7 +24,7 @@ bool getlist(Directory* current) {
 
     int cnt = 0;
     for (Directory* t = current->child; t != nullptr; t = t->sibling) {
-        cout << t->name ;
+        cout << t->name;
         if (!t->isFile) cout << "/";
         cout << "\t";
         if (++cnt == 9) {
@@ -48,6 +48,7 @@ bool getparent(Directory* current, Directory* root) {
 }
 
 Directory* changedirectory(const string& argument, Directory* current) {
+    if (argument == ".") return current;
     if (argument == "..") return current->parent ? current->parent : current;
 
     for (Directory* t = current->child; t != nullptr; t = t->sibling)

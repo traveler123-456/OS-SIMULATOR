@@ -132,7 +132,7 @@ mem
 - File and folder names cannot contain spaces.
 - The file system is in memory only; nothing is saved when the simulator exits.
 
-## Planned work
+## Planned Feature's
 
 - [ ] Link memory to processes (allocate on `new → ready`, free on `kill` and `terminated`)
 - [ ] Paging with page replacement (FIFO, LRU, Optimal)

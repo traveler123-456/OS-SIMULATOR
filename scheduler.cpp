@@ -62,7 +62,7 @@ void roundRobin(vector<process*>& arr, int quantum) {
                 total_waiting_time += waiting_time;
                 total_response_time += response_time;
 
-                cout << "\n  -> PID " << p->PID << " (" << p->name << ") finished at "
+                cout << "\n-> PID " << p->PID << " (" << p->name << ") finished at "
                      << p->completion << " | turnaround = " << turn_around_time
                      << " | waiting = " << waiting_time << " | response = " << response_time
                      << "\n";
@@ -86,8 +86,8 @@ void roundRobin(vector<process*>& arr, int quantum) {
     }
 
     cout << "\n\nAverage turnaround time = " << total_turn_around_time / n << "\n";
-    cout << "Average waiting time    = " << total_waiting_time / n << "\n";
-    cout << "Average response time   = " << total_response_time / n << "\n";
+    cout << "Average waiting time = " << total_waiting_time / n << "\n";
+    cout << "Average response time = " << total_response_time / n << "\n";
 }
 
 void RunScheduler(string algo, int quantum) {
