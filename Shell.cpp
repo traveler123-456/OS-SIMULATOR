@@ -1,5 +1,5 @@
 #include "Shell.h"
-
+#include "cleanup.h"
 void Shell() {
     cout << "Enter user name: ";
     string name;
@@ -15,5 +15,10 @@ void Shell() {
         if (!commandparser.execute(input)) break;
         cout << "[" << name << "@OS_SIMULATOR " << fs.current->name << "]$ ";
     }
+    Cleanup (&fs);
+
+    cout << "\n`````````````````````\n";
+    cout << "  Goodbye, " << name << "!\n";
+    cout << "`````````````````````\n";
     cout << "\n";
 }

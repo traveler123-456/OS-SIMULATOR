@@ -18,3 +18,5 @@ bool AllocateMemory(int pid, int size);
 bool FreeMemory(int pid);
 void ShowMemory();
 bool MemoryManagement(string cmd, vector<string>& argument);
+int MemoryCleanup();
+bool HasMemory(int pid);

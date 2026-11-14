@@ -12,7 +12,7 @@ static void MemoryInit() {
     head->next = nullptr;
 }
 
-static bool HasMemory(int pid) {
+bool HasMemory(int pid) {
     MemBlock* temp = head;
 
     while (temp) {
@@ -191,4 +191,16 @@ bool MemoryManagement(string cmd, vector<string>& argument) {
     }
 
     return false;
+}
+
+int MemoryCleanup() {
+    int count = 0;
+
+    while (head != nullptr) {
+        MemBlock* next = head->next;
+        delete head;
+        head = next;
+        count++;
+    }
+    return count;
 }
