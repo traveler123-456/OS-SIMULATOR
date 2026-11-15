@@ -1,6 +1,9 @@
 #include "Shell.h"
+
+#include "Boot.h"
 #include "cleanup.h"
 void Shell() {
+    Boot();
     cout << "Enter user name: ";
     string name;
     getline(cin, name);
@@ -15,7 +18,7 @@ void Shell() {
         if (!commandparser.execute(input)) break;
         cout << "[" << name << "@OS_SIMULATOR " << fs.current->name << "]$ ";
     }
-    Cleanup (&fs);
+    Cleanup(&fs);
 
     cout << "\n`````````````````````\n";
     cout << "  Goodbye, " << name << "!\n";

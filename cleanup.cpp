@@ -2,6 +2,7 @@
 #include "ProcessManagement.h"
 #include "MemoryManagement.h"
 #include <iostream>
+#include "Boot.h"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ FreeTree (Directory *node)
 void
 Cleanup (FileSystem *fs)
 {
-  cout << "\nCleaning up...\n";
+  cout << "\nShutting down...\n";
 
   int procs = 0;
   while (FRONT != nullptr)
@@ -32,12 +33,14 @@ Cleanup (FileSystem *fs)
       procs++;
     }
   REAR = nullptr;
-  cout << " [1/3] processes freed      : " << procs << "\n";
+  Step ("Stopped processes (" + to_string (procs) + " removed)");
 
-  cout << " [2/3] memory blocks freed  : " << MemoryCleanup () << "\n";
+  Step ("Released memory (" + to_string (MemoryCleanup ()) + " blocks)");
 
   int nodes = FreeTree (fs->root) - 1;
   fs->root = nullptr;
   fs->current = nullptr;
-  cout << " [3/3] files/folders freed  : " << nodes << "\n";
+  Step ("Unmounted file system (" + to_string (nodes) + " files/folders)");
+
+  Step ("System halted");
 }
